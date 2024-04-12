@@ -1,0 +1,28 @@
+#### 
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+    "title": "Complete Node.js project",
+    "description": "Finish building the Node.js project for the Todo List API."
+}
+
+####
+GET http://localhost:3000/todos
+
+#### 
+GET http://localhost:3000/todos/1
+
+### 
+PUT http://localhost:3000/todos/1
+Content-Type: application/json
+
+{
+    "title": "Complete Node.js project",
+    "description": "Finish building the Node.js project for the Todo List API.",
+    "completed": true
+}
+
+####
+
+DELETE http://localhost:3000/todos/1
