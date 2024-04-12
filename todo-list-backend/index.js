@@ -1,13 +1,45 @@
 // index.js
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs').promises;
 
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
 
+const TODOS_FILE = 'todos.json';
+
 let todos = [];
+
+// Load todos from file on server start
+async function loadTodos() {
+  try {
+    const data = await fs.readFile(TODOS_FILE, 'utf8');
+    todos = JSON.parse(data);
+  } catch (err) {
+    // If file does not exist or cannot be read, initialize with an empty array
+    todos = [];
+  }
+}
+
+// Save todos to file
+async function saveTodos() {
+  try {
+    await fs.writeFile(TODOS_FILE, JSON.stringify(todos, null, 2));
+  } catch (err) {
+    console.error('Error saving todos:', err);
+  }
+}
+
+// Middleware to save todos after each request
+app.use((req, res, next) => {
+  res.on('finish', saveTodos);
+  next();
+});
+
+// Load todos from file on server start
+loadTodos();
 
 // Get all todos
 app.get('/todos', (req, res) => {
