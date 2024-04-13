@@ -1,12 +1,13 @@
-// index.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
+const cors = require('cors'); // Import cors module
 
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
+app.use(cors()); // Use cors middleware to enable CORS
 
 const TODOS_FILE = 'todos.json';
 
